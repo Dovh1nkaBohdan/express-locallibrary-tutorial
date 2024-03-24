@@ -28,6 +28,7 @@ AuthorSchema.virtual("url").get(function () {
   return `/catalog/author/${this._id}`;
 });
 
+//Adding the author's age
 AuthorSchema.virtual("duration_of_life").get(function () {
   if (this.date_of_birth && this.date_of_death) {
     const birthDate = DateTime.fromJSDate(this.date_of_birth);
