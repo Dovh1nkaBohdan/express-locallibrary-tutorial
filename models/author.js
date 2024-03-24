@@ -28,6 +28,22 @@ AuthorSchema.virtual("url").get(function () {
   return `/catalog/author/${this._id}`;
 });
 
+AuthorSchema.virtual("duration_of_life").get(function () {
+  if (this.date_of_birth && this.date_of_death) {
+    const birthDate = DateTime.fromJSDate(this.date_of_birth);
+    const deathDate = DateTime.fromJSDate(this.date_of_death);
+    const duration = deathDate.diff(birthDate, ["years", "months", "days"]).toObject();
+
+    const years = duration.years;
+    const months = duration.months;
+    const days = Math.floor(duration.days);
+
+    return `${years} years, ${months} months, ${days} days`;
+  } else {
+    return "N/A";
+  }
+});
+
 // Virtual for a better Date format
 AuthorSchema.virtual("date_of_birth_formatted").get(function () {
   let birth_formatted = "";
