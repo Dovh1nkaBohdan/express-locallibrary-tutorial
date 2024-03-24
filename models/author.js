@@ -29,17 +29,14 @@ AuthorSchema.virtual("url").get(function () {
 });
 
 //Adding the author's age
-AuthorSchema.virtual("duration_of_life").get(function () {
+AuthorSchema.virtual("lifespan").get(function () {
   if (this.date_of_birth && this.date_of_death) {
     const birthDate = DateTime.fromJSDate(this.date_of_birth);
     const deathDate = DateTime.fromJSDate(this.date_of_death);
-    const duration = deathDate.diff(birthDate, ["years", "months", "days"]).toObject();
+    const duration = deathDate.diff(birthDate, ["years"]).toObject();
 
-    const years = duration.years;
-    const months = duration.months;
-    const days = Math.floor(duration.days);
-
-    return `${years} years, ${months} months, ${days} days`;
+    const years = Math.floor(duration.years);
+    return `${years} years`;
   } else {
     return "N/A";
   }
